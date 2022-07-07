@@ -6,7 +6,7 @@
       <div class="container">
         <div class="loginList">
           <p>尚品汇欢迎您！</p>
-          <p>
+          <p v-if="!userName">
             <span>请</span>
             <!-- <a href="###">登录</a> -->
             <!-- 声明式导航 必须要to属性  to条哪里去 -->
@@ -16,6 +16,11 @@
             <router-link to="/register" class="register">
               <a>免费注册</a>
             </router-link>
+          </p>
+          <!-- 登陆了 -->
+          <p v-else>
+            <a>{{ userName }}</a>
+            <a class="register" @click="logout">退出登录</a>
           </p>
         </div>
         <div class="typeList">
@@ -75,6 +80,11 @@ export default {
       this.keyword = "";
     });
   },
+  computed: {
+    userName() {
+      return this.$store.state.user.userInfo.name;
+    },
+  },
 
   methods: {
     /**
@@ -118,6 +128,21 @@ export default {
       //返回的是一个 promise
       // console.log(this.$router);
       // push : VueRouter类的一个实例
+    },
+    /**
+     * 退出登录：要做什么事
+     * 1.需要发请求，通知服务器退出登录【清除一些数据；token】
+     * 清除项目当中的数据【userInfo、token】
+     *
+     */
+    async logout() {
+      try {
+        await this.$store.dispatch("userLogout");
+        //如果退出成功回到首页
+        this.$router.push("/home");
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 };
