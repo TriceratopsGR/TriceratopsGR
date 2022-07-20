@@ -1,22 +1,64 @@
 //引入路由
-import Home from '@/pages/Home'
-import Login from '@/pages/Login'
-import Register from '@/pages/Register'
-import Search from '@/pages/Search'
-import Detail from '@/pages/Detail'
-import AddCartSuccess from '@/pages/AddCartSuccess'
-import ShopCart from '@/pages/ShopCart'
 
+//引入二级路由
+/**
+ * 当打包构建应用时，JavaScript 包会变得非常大，影响页面加载。
+ * 如果我们能把不同路由对应的组件分割成不同的代码块，然后当路由被访问的时候才加载对应组件，
+ * 这样就更加高效了。
+ */
 // 路由配置信息
 export default [
     //重定向,在项目访问，立马让他定向到首页
-    {
+  {
      path: "/",
      redirect: "/home",
   },{
+    path: '/center',
+    name: 'center',
+    // 路由懒加载 用法
+    component: ()=>import('@/pages/Center'),
+    meta: {
+      show:true
+    },
+    redirect: "/center/myOrder",
+    // 二级路由组件
+    children: [
+      
+      {
+        path: 'myOrder',
+        component:()=>import('@/pages/Center/myOrder')
+      },{
+        path: 'groupOrder',
+        component:()=>import('@/pages/Center/groupOrder')
+      }
+    ]
+  },{
+    path: '/paySuccess',
+    name: 'paySuccess',
+    component: ()=>import('@/pages/PaySuccess'),
+    meta: {
+      show:true
+    }
+  },{
+    path: '/pay',
+    name: 'pay',
+    component: ()=>import('@/pages/Pay'),
+    meta: {
+      show:true
+    },
+    // 路由独享守
+    beforeEnter: (to, from, next)=>{
+      if (from.path == '/trade') {
+        next();
+      } else {
+        // false 从哪里来回那里去
+        next(false);
+      }
+    }
+  },{
     path: '/shopcart',
     name: 'shopcart',
-    component: ShopCart,
+    component: ()=>import('@/pages/ShopCart'),
     // 底部组件是否显示
     meta: {
       show:true
@@ -24,7 +66,7 @@ export default [
   },{
      path: '/detail/:skuid',
      name: 'detail',
-     component: Detail,
+     component:()=>import('@/pages/Detail') ,
      // 底部组件是否显示
      meta: {
        show:true
@@ -32,7 +74,7 @@ export default [
    },{
     path: '/addCartSuccess',
     name: 'addCartSuccess',
-    component: AddCartSuccess,
+    component: ()=>import("@/pages/AddCartSuccess"),
     // 底部组件是否显示
     meta: {
       show:true
@@ -40,28 +82,46 @@ export default [
   },{
      path: '/home',
      name: 'home',
-     component: Home,
+     component: ()=>import("@/pages/Home"),
      meta: {
        show:true
      }
    },{
+    path: '/trade',
+    name: 'trade',
+    component: ()=>import("@/pages/Trade"),
+    meta: {
+      show:true
+    },
+    // 路由独享守卫 我只负责我自己
+    beforeEnter: (to, from, next) => {
+      // 去交易页面必须是从 购物车而来的 
+      if (from.path == '/shopcart') {
+        next();
+      } else {
+        //中断当前的导航 就是 从哪里来回哪里去
+        next(false);
+      }
+    }
+
+  },{
      path: '/login',
      name: 'login',
-     component: Login,
+     component: ()=>import("@/pages/Login"),
      meta: {
        show:true
      }
    },{
      path: '/register',
      name: 'register',
-     component: Register,
+     component: ()=>import("@/pages/Register"),
      meta: {
        show:false
      }
    },{
      path: '/search/:keyword',
      name: 'search',
-     component: Search,
+     component: ()=>import('@/pages/Search'),
      meta: {
        show:true
      },

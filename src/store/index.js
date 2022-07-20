@@ -30,6 +30,7 @@ import search from './search';
 import detail from './detail';
 import cart from './cart';
 import user from './user';
+import trade from './trade';
 
 
 // 导出 对位暴露
@@ -44,7 +45,8 @@ export default new Vuex.Store({
     search,
     detail,
     cart,
-    user
+    user,
+    trade
   }
   
 })

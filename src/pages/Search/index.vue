@@ -79,7 +79,7 @@
                 <div class="list-wrap">
                   <div class="p-img">
                     <router-link :to="`/detail/${good.id}`">
-                      <img :src="good.defaultImg" />
+                      <img v-lazy="good.defaultImg" />
                     </router-link>
                   </div>
                   <div class="price">
@@ -155,7 +155,7 @@ export default {
         order: "1:desc",
         // 分页
         pageNo: 1,
-        pageSize: 10,
+        pageSize: 20,
         // 平台售卖属性的参数
         props: [],
         // 品牌

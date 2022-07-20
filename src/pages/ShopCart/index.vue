@@ -76,7 +76,7 @@
           <i class="summoney">{{ totalPrice }}</i>
         </div>
         <div class="sumbtn">
-          <a class="sum-btn" target="_blank">结算</a>
+          <a class="sum-btn" @click="$router.push('/trade')">结算</a>
         </div>
       </div>
     </div>
@@ -208,6 +208,12 @@ export default {
 .cart {
   width: 1200px;
   margin: 0 auto;
+  a {
+    cursor: pointer;
+    &:hover {
+      color: aqua;
+    }
+  }
 
   h4 {
     margin: 9px 0;

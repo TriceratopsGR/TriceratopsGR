@@ -65,12 +65,11 @@ router.beforeEach(async (to, from, next) => {
   // 用户信息 
   let name = store.state.user.userInfo.name;
   // 空对象 进行if判断的时候为真
-  console.log(name);
-  console.log(token);
+  // console.log(name);
+  // console.log(token);
   if (token) {
-    // 用户登录了 还想去login[不能去了 停留的首页]
-    if (to.path == '/login') {
-      console.log('aa1');
+    // 用户登录了 还想去login /  register [不能去了 停留的首页]
+    if (to.path == '/login'|| to.path=='/register') {
       next('/home')
     } else {
       //登录了 去的不是login 【home/seach/..】
@@ -92,10 +91,20 @@ router.beforeEach(async (to, from, next) => {
       }
     }
   } else {
-    next();
+    // 全局守卫
+    // 用户未登录 全部放行 到时候再处理
+    // next();
+    //未登录 不能去交易、支付、不能去个人中心
+    let toPath = to.path;
+    if (toPath.indexOf('/trade') != -1 || toPath.indexOf('/pay') != -1 || toPath.indexOf('/center') != -1) {
+      // 把未登录的时候想去的地方而没去成的地方，存储于地址栏中【路由】
+      next('/login?redirect='+toPath);
+      console.log('请登录');
+    } else {
+      //放行
+      next();
+    }
   }
-  
-
 })
 
 export default router
