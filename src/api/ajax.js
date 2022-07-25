@@ -20,6 +20,7 @@ const requests = axios.create({
     timeout: 5000
 
 });
+
 //请求拦截器：在方式请求之前，请求拦截器可以检测到，可以在请求发出去之前搓一下事情
 requests.interceptors.request.use((config) => {
     if (store.state.detail.uuid_token) {

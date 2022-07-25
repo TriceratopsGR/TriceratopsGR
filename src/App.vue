@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <h1 v-upper="msg"></h1>
-    <h2 v-kongs="kl"></h2>
+    <!-- <h1 v-upper="msg"></h1>
+    <h2 v-kongs="kl"></h2> -->
     <!-- <nav>
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>

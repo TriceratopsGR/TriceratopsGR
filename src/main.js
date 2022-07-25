@@ -31,6 +31,7 @@ import * as API from '@/api'
 import { Button, MessageBox } from 'element-ui'
 // 全局注册 
 Vue.component(Button.name, Button)
+
 // 文档的注册方式 -- 挂在原型上
 Vue.prototype.$msgbox = MessageBox;
 Vue.prototype.$alert = MessageBox.alert;
